@@ -53,11 +53,11 @@ def save_order_to_excel(full_name, phone, book_title, qty, location_link):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = ReplyKeyboardMarkup([[KeyboardButton("📚 Kitoblar ro'yxati")]], resize_keyboard=True)
     await update.message.reply_text(
-        "📚 Ushbu bot Gulruh Markayeva tomonidan yozilgan “FEVRAL” kitobi sotuviga mo‘ljallangan.\n\n"
-        "👩‍💼 Muallif: Gulruh Markayeva\n\n"
-        "📌 Telegram kanal: https://t.me/gulruh_markayeva\n\n"
+        "📚 Ushbu bot Gulruh Markayeva tomonidan yozilgan kitoblar sotuviga mo‘ljallangan.\n\n"
+        "👩‍💼 Muallif: Gulruh Markayeva – psixologik ruhdagi blog asoschisi, 5 yillik tajribaga ega ingliz tili o’qituvchisi va zamonaviy adabiyotga kirib kelayotgan istiqbolli muallif.\n\n"
+        "📌 Telegram kanal: https: @yupiterlik\n\n"
         "💰 Kitob narxi: har bir kitob tavsifida ko‘rsatilgan.\n\n"
-        "📞 Admin: +998 90 123 45 67",
+        "📞 Savollar bo'yicha admin: @jupiter_ads",
         reply_markup=keyboard
     )
 
