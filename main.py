@@ -1,5 +1,3 @@
-# main.py
-
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
 import os, json, uuid
@@ -41,11 +39,11 @@ def update_book_count(book_id, qty):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = ReplyKeyboardMarkup([[KeyboardButton("📚 Kitoblar ro'yxati")]], resize_keyboard=True)
     await update.message.reply_text(
-        "📚 Ushbu bot Gulruh Markayeva tomonidan yozilgan “FEVRAL” kitobi sotuviga mo‘ljallangan.\n\n"
-        "👩‍💼 Muallif: Gulruh Markayeva – zamonaviy adabiyotda faol ijodkor, bir necha asarlar muallifi.\n\n"
-        "📌 Telegram kanal: https://t.me/gulruh_markayeva\n\n"
+        "📚 Ushbu bot Gulruh Markayeva tomonidan yozilgan kitoblar sotuviga mo‘ljallangan.\n\n"
+        "👩‍💼 Muallif: Gulruh Markayeva – psixologik ruhdagi blog asoschisi, 5 yillik tajribaga ega ingliz tili o’qituvchisi va zamonaviy adabiyotga kirib kelayotgan istiqbolli muallif.\n\n"
+        "📌 Telegram kanal: @yupiterlik\n\n"
         "💰 Kitob narxi: har bir kitob tavsifida ko‘rsatilgan.\n\n"
-        "📞 Savollar bo‘yicha admin: +998 90 123 45 67",
+        "📞 Savollar bo‘yicha admin: @jupiter_ads",
         reply_markup=keyboard
     )
 
@@ -187,7 +185,8 @@ async def confirm_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         user_order_info[user_id] = {
             "book_id": order["book_id"],
-            "qty": order["qty"]
+            "qty": order["qty"],
+            "has_contact": False
         }
 
         await context.bot.send_message(
@@ -209,14 +208,27 @@ async def reject_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def contact_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     contact = update.message.contact
+    user_id = update.message.from_user.id
+
+    if user_id not in user_order_info:
+        await update.message.reply_text("❗ Avval to‘lov qilishingiz kerak.")
+        return
+
     context.user_data["full_name"] = f"{contact.first_name} {contact.last_name or ''}"
     context.user_data["phone"] = contact.phone_number
+    user_order_info[user_id]["has_contact"] = True
+
     await update.message.reply_text("📍 Iltimos, manzilingizni (live location) yuboring.")
 
 async def location_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    location = update.message.location
     user_id = update.message.from_user.id
-    info = user_order_info.get(user_id, {})
+
+    if user_id not in user_order_info or not user_order_info[user_id].get("has_contact", False):
+        await update.message.reply_text("❗ Avval telefon raqamingizni yuboring.")
+        return
+
+    location = update.message.location
+    info = user_order_info[user_id]
     books = load_books()
     book = next((b for b in books if b["id"] == info.get("book_id")), None)
 
@@ -229,6 +241,8 @@ async def location_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
              f"📍 https://maps.google.com/?q={location.latitude},{location.longitude}"
     )
     await update.message.reply_text("✅ Buyurtma yakunlandi!")
+
+    del user_order_info[user_id]
 
 def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
