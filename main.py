@@ -4,7 +4,7 @@ import os, json, uuid, openpyxl
 from openpyxl import Workbook
 
 BOT_TOKEN = "7427242655:AAEib0vXUVsczfZ5Mlc8MOm9SOstG7Cm0W4"
-ADMIN_ID = 1028767008
+ADMIN_ID = 793339530
 
 BOOKS_FILE = "books.json"
 KITOB_MEDIA = "kitoblar"
