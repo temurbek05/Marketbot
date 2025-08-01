@@ -71,12 +71,12 @@ async def show_books(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if book.get("count", 0) <= 0:
             continue
         qty_buttons = [
-            InlineKeyboardButton(str(i), callback_data=f"qty_{book['id']}_{i}") for i in range(1, min(6, book["count"]+1))
+            InlineKeyboardButton(f"{i} dona", callback_data=f"qty_{book['id']}_{i}") for i in range(1, min(6, book["count"]+1))
         ]
         keyboard = InlineKeyboardMarkup([qty_buttons])
         await update.message.reply_photo(
             photo=open(book["image_path"], "rb"),
-            caption=f"📖 {book['title']}\n💬 {book['description']}\n💰 {book['price']} so'm\n💳 {book['card']}\n📦 Qolgan: {book['count']} dona",
+            caption=f"📖 {book['title']}\n💬 {book['description']}\n💰 {book['price']} so'm\n💳 {book['card']}\n📦 Qolgan: {book['count']} dona\n\n📌 Buyurtma qilmoqchi bo‘lgan nusxalar sonini tanlang 👇",
             reply_markup=keyboard
         )
 
@@ -297,7 +297,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
