@@ -67,24 +67,18 @@ async def show_books(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("💼 Kitoblar hozircha mavjud emas.")
         return
 
- for book in books:
-    if book.get("count", 0) <= 0:
-        continue
-    qty_buttons = [
-        InlineKeyboardButton(str(i), callback_data=f"qty_{book['id']}_{i}") for i in range(1, min(6, book["count"]+1))
-    ]
-    keyboard = InlineKeyboardMarkup([qty_buttons])
-    
-    # Savolni chiqarish
-    await update.message.reply_text("📌 Necha dona kitob olmoqchisiz?")
-    
-    # Rasm, caption va tugmalar bilan javob
-    await update.message.reply_photo(
-        photo=open(book["image_path"], "rb"),
-        caption=f"📖 {book['title']}\n💬 {book['description']}\n💰 {book['price']} so'm\n💳 {book['card']}\n📦 Qolgan: {book['count']} dona",
-        reply_markup=keyboard
-    )
-
+    for book in books:
+        if book.get("count", 0) <= 0:
+            continue
+        qty_buttons = [
+            InlineKeyboardButton(str(i), callback_data=f"qty_{book['id']}_{i}") for i in range(1, min(6, book["count"]+1))
+        ]
+        keyboard = InlineKeyboardMarkup([qty_buttons])
+        await update.message.reply_photo(
+            photo=open(book["image_path"], "rb"),
+            caption=f"📖 {book['title']}\n💬 {book['description']}\n💰 {book['price']} so'm\n💳 {book['card']}\n📦 Qolgan: {book['count']} dona",
+            reply_markup=keyboard
+        )
 
 async def handle_qty_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -303,6 +297,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
