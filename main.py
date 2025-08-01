@@ -89,7 +89,7 @@ async def handle_qty_selection(update: Update, context: ContextTypes.DEFAULT_TYP
     context.user_data["selected_qty"] = qty
     user_photo_state[query.from_user.id] = True
 
-    await query.message.reply_text("💳 Iltimos, to‘lov cheki rasmni yuboring. Faqat bitta rasm yuboring!")
+    await query.message.reply_text("💳 Iltimos, to‘lov cheki rasmni yuboring.")
 
 async def photo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.from_user.id
@@ -297,4 +297,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
