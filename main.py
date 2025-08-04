@@ -56,7 +56,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "📚 Ushbu bot Gulruh Markayeva tomonidan yozilgan kitoblar sotuviga mo‘ljallangan.\n\n"
         "👩‍💼 Muallif: Gulruh Markayeva – psixologik ruhdagi blog asoschisi, 5 yillik tajribaga ega ingliz tili o’qituvchisi va zamonaviy adabiyotga kirib kelayotgan istiqbolli muallif.\n\n"
         "📌 Telegram kanal: @yupiterlik\n\n"
-        "💰 Kitob narxi: har bir kitob tavsifida ko‘rsatilgan.\n\n"
+        "💰 Kitob narxi: Har bir kitob tavsifida ko‘rsatilgan.\n\n"
         "📞 Savollar bo'yicha admin: @jupiter_ads",
         reply_markup=keyboard
     )
@@ -297,5 +297,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
